@@ -1,0 +1,26 @@
+{
+  "name": "phishing-url-detector",
+  "version": "1.0.0",
+  "description": "Production-ready phishing URL detection system with static frontend, Vercel API routes, and a trained ML model.",
+  "main": "server.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "train": "node ml/train_model.js",
+    "build": "node -e \"console.log('Static app ready for Vercel')\"",
+    "vercel-build": "node -e \"console.log('Static app ready for Vercel')\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "phishing",
+    "url-detection",
+    "machine-learning",
+    "vercel"
+  ],
+  "author": "",
+  "license": "MIT"
+}

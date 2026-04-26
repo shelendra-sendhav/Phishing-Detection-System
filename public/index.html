@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhishGuard URL Scanner</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar" aria-label="Application header">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <path d="M12 3l7 3v5c0 4.6-2.9 8.8-7 10-4.1-1.2-7-5.4-7-10V6l7-3z"></path>
+              <path d="M9.2 12.3l1.9 1.9 3.9-4.4"></path>
+            </svg>
+          </span>
+          <div>
+            <p>PhishGuard</p>
+            <span>URL threat scanner</span>
+          </div>
+        </div>
+        <div class="model-status" id="model-status">
+          <span class="status-dot"></span>
+          <span>Checking model</span>
+        </div>
+      </header>
+
+      <section class="scanner-layout" aria-label="Phishing URL scanner">
+        <div class="scanner-main">
+          <div class="scanner-heading">
+            <p class="eyebrow">Machine learning verdict</p>
+            <h1>Check a suspicious link before you open it.</h1>
+            <p class="intro">Paste any URL to get a phishing probability, clear verdict, risk indicators, and a saved scan history for comparison.</p>
+          </div>
+
+          <form id="check-form" class="scan-form">
+            <label for="url-input">URL</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.1 0l2.1-2.1a5 5 0 0 0-7.1-7.1l-1.2 1.2"></path>
+                <path d="M14 11a5 5 0 0 0-7.1 0l-2.1 2.1a5 5 0 0 0 7.1 7.1l1.2-1.2"></path>
+              </svg>
+              <input id="url-input" name="url" type="text" placeholder="https://example.com/login" autocomplete="off" spellcheck="false" required>
+              <button id="check-button" type="submit">
+                <span>Scan</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="M13 6l6 6-6 6"></path>
+                </svg>
+              </button>
+            </div>
+            <p id="form-message" class="form-message" role="status"></p>
+          </form>
+
+          <div class="quick-checks" aria-label="Example URLs">
+            <button type="button" class="sample-url" data-url="https://www.google.com">Safe example</button>
+            <button type="button" class="sample-url" data-url="http://paypal.com.security-check-login.xyz/verify/account">Phishing example</button>
+            <button type="button" class="sample-url" data-url="http://bit.ly/secure-bank-update">Shortened link</button>
+          </div>
+        </div>
+
+        <aside id="result" class="result-panel empty" aria-live="polite">
+          <div class="score-card">
+            <div class="score-ring" aria-hidden="true">
+              <svg viewBox="0 0 120 120">
+                <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+                <circle id="ring-progress" class="ring-progress" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <div class="score-text">
+                <strong id="percentage">--%</strong>
+                <span>phishing</span>
+              </div>
+            </div>
+            <div>
+              <span id="risk-badge" class="risk-badge">Not scanned</span>
+              <h2 id="verdict">Waiting for a URL</h2>
+              <p id="checked-url" class="checked-url">Results will appear here after a scan.</p>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button id="copy-result" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy report
+            </button>
+            <button id="clear-history" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4h8v2"></path>
+                <path d="M19 6l-1 14H6L5 6"></path>
+              </svg>
+              Clear history
+            </button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="details-layout" aria-label="Scan details">
+        <section class="analysis-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Why this verdict</p>
+              <h2>Detected signals</h2>
+            </div>
+          </div>
+          <ul id="reasons" class="reasons">
+            <li class="placeholder">Scan a URL to see the model's strongest signals.</li>
+          </ul>
+        </section>
+
+        <section class="analysis-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">URL features</p>
+              <h2>Technical snapshot</h2>
+            </div>
+          </div>
+          <div id="feature-grid" class="feature-grid">
+            <div class="feature-item"><span>URL length</span><strong>--</strong></div>
+            <div class="feature-item"><span>HTTPS</span><strong>--</strong></div>
+            <div class="feature-item"><span>Subdomains</span><strong>--</strong></div>
+            <div class="feature-item"><span>Suspicious words</span><strong>--</strong></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="history-panel" aria-label="Recent scans">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Recent scans</p>
+            <h2>History</h2>
+          </div>
+          <span id="history-count">0 saved</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>URL</th>
+                <th>Verdict</th>
+                <th>Risk</th>
+                <th>Phishing %</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <tr>
+                <td colspan="5" class="empty-row">No scans yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
